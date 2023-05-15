@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video with Chat Subtitles</title>
+  <style>
+    #subtitle {
+      white-space: pre-line;
+      font-size: 24px;
+      margin-top: 20px;
+    }
+    body {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #video-container {
+      width: 60%;
+      margin-left: 20px;
+    }
+    #subtitle-container {
+      width: 35%;
+      margin-right: 20px;
+      text-align: left;
+    }
+    video {
+      width: 100%;
+    }
+  </style>
+  <script>
+    function showSubtitles() {
+      var subtitles = `{{ generated_text }}`.split("\n"); 
+      var subtitleHistory = [];
+      var index = 0;
+      var subtitleElement = document.getElementById('subtitleElement');
+      var subtitleHistoryElement = document.getElementById('subtitleHistoryElement');
+      subtitleElement.innerText = subtitles[index++];
+      subtitleHistory.push(subtitleElement.innerText);
+      setInterval(function() {
+        if (index < subtitles.length) {
+          subtitleElement.innerText = subtitles[index++];
+          subtitleHistory.push(subtitleElement.innerText);
+          subtitleHistoryElement.innerText = subtitleHistory.join('\n');
+        }
+      }, 5000);
+
+      subtitleHistoryElement.innerText = subtitleHistory.join('\n');
+    }
+  </script>
+</head>
+<body onload="showSubtitles()">
+  <div id="video-container">
+    <video controls>
+      <source src="static/トランプ大統領誕生　「米国第一」宣言.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div id="subtitle-container">
+    <h1>ライブコメント:</h1>
+    <p id="subtitleElement"></p>
+    <h1>コメント履歴:</h1>
+    <p id="subtitleHistoryElement"></p>
+  </div>
+</body>
+</html>
